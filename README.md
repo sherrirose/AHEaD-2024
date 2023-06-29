@@ -7,6 +7,12 @@
 
 ## Table of contents
 - [Week 1](#week-1-june-26---june-30)
+- [Week 2](#week-2-july-3---july-7)
+- [Week 3](#week-3-july-10---july-14)
+- [Week 4](#week-4-july-17---july-21)
+- [Week 5](#week-5-july-24---july-28)
+- [Week 6](#week-6-july-31---august-4)
+- [Week 7](#week-7-august-7---august-11)
 
 ## Project description
 What constitutes a fair or unfair algorithm is context specific. Metrics for evaluating fairness have been developed, as have methods for prioritizing measures of fairness when building algorithms. However, algorithms are not neutral and optimization choices will reflect a specific value system and the distribution of power to make these decisions. Data also reflect societal bias, such as structural racism. Algorithmic fairness research spans many fields, including sociology, ethics, computer science, statistics, and population health. These concepts are incredibly important given the potential for and actual realized harm to marginalized groups. This summer, students will have an opportunity to learn more about ethical pipelines for algorithms and contribute to an ongoing project in chronic kidney disease clinical decision-making. 
@@ -33,5 +39,68 @@ During the first week, youu will read about CKD and how the eGFR formula defines
     - "Glomerular Filtration Rate"[Mesh]
     - "Cohort Studies"[Mesh]
 - Summarize the article in 3-5 sentences focusing on the goal of the study, how eGFR played a role, and key findings.
+
+
+## Week 2 (July 3 - July 7)
+
+#### *Literature review: How was the eGFR formula race-adjusted?*
+
+During the second week, students will learn about the eGFR formula race adjustment and the new version of the eGFR formula that no longer relies on the race adjustment.
+
+**Readings**:
+- [Hidden in Plain Sight - Reconsidering the Use of Race Correction in Clinical Algorithms](https://www.nejm.org/doi/10.1056/NEJMms2004740)
+- [Reconsidering the Consequences of Using Race to Estimate Kidney Function](https://jamanetwork.com/journals/jama/article-abstract/2735726)
+- [A New Equation to Estimate Glomerular Filtration Rate ](https://www.acpjournals.org/doi/10.7326/0003-4819-150-9-200905050-00006)
+- [New Creatinine and Cystatin-C-Based Equations to Estimate GFR without Race](https://www.nejm.org/doi/full/10.1056/NEJMoa2102953)
+
+**Tasks**: 
+- Use [PubMed](https://pubmed.ncbi.nlm.nih.gov/) to find an additional recent relevant article on potential impacts of eGFR formula race adjustment 
+
+- MeSH terms:
+    - "Renal Insufficiency, Chronic"[Mesh]
+    - "Glomerular Filtration Rate"[Mesh]
+    - "Retrospective Studies"[Mesh]
+- Summarize the article in 3-5 sentences focusing on the goal of the study and key findings.
+
+## Week 3 (July 10 - July 14)
+
+#### *Data analysis: getting acquainted with the data*
+
+During the third week, students will begin to work with the simulated dataset. They will explore each of the dataset’s columns and provide some summary statistics (e.g., mean, median, standard deviation).
+
+
+## Week 4 (July 17 - July 21)
+
+#### *Data analysis: compute eGFR values*
+
+During the fourth week, students will begin computing eGFR values according to the CKD-EPI 2009 and 2021 eGFR formulas. To calculate eGFR, they will need to use the following variables: serum creatinine, age, sex, and race (Black or African American). They will also classify patients into CKD stages according to their eGFR values.
+
+They will refer to the eGFR formulas here: 
+- [CKD-EPI (2009)](http://nephron.com/epi_equation)
+- [CKD-EPI (2021)](https://www.kidney.org/content/ckd-epi-creatinine-equation-2021)
+
+They can manually validate their calculation using the calculator on [this website](https://www.mdcalc.com/calc/3939/ckd-epi-equations-glomerular-filtration-rate-gfr).
+
+Stages of CKD are determined by eGFR as per [this website](https://www.kidney.org/atoz/content/gfr).
+
+## Week 5 (July 24 - July 28)
+
+#### *Data analysis: differences by population group*
+
+During the fifth week, students will compare how the eGFR and CKD stage distribution differs when using the CKD-EPI 2009 and CKD-EPI 2021 eGFR formulas. 
+
+They will identify if differences in the distributions are more evident in certain population subgroups, such as racial and ethnic groups (e.g., American Indian or Alaska Native, Asian, Black or African American, Native Hawaiian or Other Pacific Islander, Other, White, Unknown). 
+
+## Week 6 (July 31 - August 4)
+
+#### *Data analysis: wrap up*
+
+During the sixth week, they will continue to work on their data analysis and finalize their results in advance of the final presentations. We will conduct code and results review. 
+
+## Week 7 (August 7 - August 11)
+
+#### *Final presentations*
+
+During the final week of the program, they will prepare their final project presentations. 
 
 
