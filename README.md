@@ -66,7 +66,7 @@ During the second week, students will learn about the eGFR formula race adjustme
 
 #### *Data analysis: getting acquainted with the data*
 
-During the third week, students will begin to work with the simulated dataset. They will explore each of the dataset’s columns and provide some summary statistics (e.g., mean, median, standard deviation).
+During the third week, students will begin to work with the simulated dataset. They will explore each of the dataset’s columns and provide some summary statistics (e.g., mean, median, standard deviation) and data visualization.
 
 
 ## Week 4 (July 17 - July 21)
