@@ -66,7 +66,28 @@ During the second week, students will learn about the eGFR formula race adjustme
 
 #### *Data analysis: getting acquainted with the data*
 
-During the third week, students will begin to work with the simulated dataset. They will explore each of the dataset’s columns and provide some summary statistics (e.g., mean, median, standard deviation) and data visualization.
+During the third week, students will begin to work with the simulated dataset. They will explore each of the dataset’s columns and provide some summary statistics and data visualization. The dataset is available on our GitHub under the data folder as a csv and excel file. 
+
+The data contains the following columns: 
+- patient_id: Unique patient identifier
+- Sr_Cr: serum creatinine laboratory value (mg/dL)
+- age: patient age
+- Asian: dummy variable for patient being documented as Asian (race)
+- Other: dummy variable for patient being documented as Other (race)
+- Unknown: dummy variable for patient being documented as Unknown (race)
+- Native Hawaiian or Other Pacific Islander: dummy variable for patient being documented as Native Hawaiian or Other Pacific Islander (race)
+- Black or African American: dummy variable for patient being documented as Black or African American (race)
+- American Indian or Alaska Native: dummy variable for patient being documented as American Indian or Alaska Native (race)
+- White: dummy variable for patient being documented as White (race)
+- ethnicity: documented patient ethnicity
+- sex: documented patient sex
+- county: patient county
+- hypertension: dummy variable for patient documented as having hypertension
+- diabetes: dummy variable for patient documented as having diabetes (type II)
+- CKD: dummy variable for patient documented as having CKD
+- ESRD: dummy variable for patient documented as having end-stage renal disease (ESRD)
+
+For the continuous variables, compute the mean, median, and standard deviation. For the categorical variables, compute counts and percentages. 
 
 
 ## Week 4 (July 17 - July 21)
