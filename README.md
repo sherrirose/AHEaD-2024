@@ -87,8 +87,11 @@ The data contains the following columns:
 - CKD: dummy variable for patient documented as having CKD
 - ESRD: dummy variable for patient documented as having end-stage renal disease (ESRD)
 
-For the continuous variables, compute the mean, median, and standard deviation. For the categorical variables, compute counts and percentages. 
-
+In our shared google doc: 
+- For the continuous variables, compute the mean, median, and standard deviation.
+- For the categorical variables, compute counts and percentages.
+- Play around with data visualization.
+- Comment on any "data discoveries." Did you notice anything "weird" about the data? 
 
 ## Week 4 (July 17 - July 21)
 
