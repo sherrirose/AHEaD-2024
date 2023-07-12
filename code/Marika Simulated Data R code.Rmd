@@ -8,31 +8,30 @@ library(ggplot2)
 library(tidyverse)
 ```
 
-Reading in the data
+## Reading in the data
 ```{r}
 data <- read.csv("AHEaD_simulated_data.csv")
 print(data)
 ```
 
-create a dummy variable for female patients
+## create a dummy variable for female patients
 ```{r}
 data$female = ifelse(data$sex == 'Female', 1,0)
 ```
 
-
-
+##summary of the data
 ```{r}
 summary(data)
 ```
 
-Sex - frequency and percentage 
+## Sex - frequency and percentage 
 ```{r}
 w = table(data$sex)
 t = as.data.frame(w)
 t$prop = prop.table(w)
 t
 ```
-Ethnicity frequency and percentage 
+## Ethnicity frequency and percentage 
 ```{r}
 w = table(data$ethnicity)
 t = as.data.frame(w)
@@ -40,14 +39,14 @@ t$prop = prop.table(w)
 t
 ```
 
-Average, median, and standard deviation of serum creatinine values (Asian patients)
+## Average, median, and standard deviation of serum creatinine values (Asian patients)
 ```{r}
 aggregate(Sr_Cr~Asian, mean, data=data)
 aggregate(Sr_Cr~Asian, median, data=data)
 aggregate(Sr_Cr~Asian, sd, data=data)
 ```
 
-Boxplots of Sr_Cr by ethnicity
+## Boxplots of Sr_Cr by ethnicity
 https://r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html
 
 ```{r}
@@ -62,7 +61,7 @@ data %>%
     xlab("Ethnicity") + ylab("Serum Creatinine")
 ```
 
-Histogram of Sr_Cr by sex
+## Histogram of Sr_Cr by sex
 https://r-graph-gallery.com/histogram_several_group.html
 
 ```{r}
