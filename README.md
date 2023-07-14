@@ -91,7 +91,8 @@ Create and share a google doc with the following:
 - For the continuous variables, compute the mean, median, and standard deviation.
 - For the categorical variables, compute counts and percentages.
 - Play around with data visualization.
-- Comment on any "data discoveries." Did you notice anything "weird" about the data? 
+- Comment on any "data discoveries." Did you notice anything "weird" about the data?
+- Summarize the most important findings in 3-4 sentences. How might you visualize the key findings? (e.g. visualization is extra, but this could be useful to have in your final presentation. 
 
 ## Week 4 (July 17 - July 21)
 
