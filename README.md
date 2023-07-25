@@ -112,9 +112,23 @@ Stages of CKD are determined by eGFR as per [this website](https://www.kidney.or
 
 #### *Data analysis: differences by population group*
 
-During the fifth week, students will compare how the eGFR and CKD stage distribution differs when using the CKD-EPI 2009 and CKD-EPI 2021 eGFR formulas. 
+During the fifth week, students will compare how the eGFR and CKD stage distribution differs when using the CKD-EPI 2009 and CKD-EPI 2021 eGFR formulas among patients with different characteristics. For example, they will identify if differences in the distributions are more evident in certain population subgroups, such as racial and ethnic groups (e.g., American Indian or Alaska Native, Asian, Black or African American, Native Hawaiian or Other Pacific Islander, Other, White, Unknown). 
 
-They will identify if differences in the distributions are more evident in certain population subgroups, such as racial and ethnic groups (e.g., American Indian or Alaska Native, Asian, Black or African American, Native Hawaiian or Other Pacific Islander, Other, White, Unknown). 
+After computing the eGFR value and stages for each individual patient, we can identify the following two outcomes: 
+1) Binary outcome for whether or not the patient has a different stage according to CKD-EPI 2009 and CKD-EPI 2021
+2) Percent change between the CKD-EPI 2009 and CKD-EPI 2021 values
+
+First, fit a logistic regression with patient characteristics as the dependent variables and the binary outcome for switching stages (outcome 1) as the independent variable. Interpret the coefficients of the patient characteristics thinking about the following questions: 
+- Are patients of a particular trait more or less likely to have switched stages?
+- What is the increase/decrease in the likelihood of switching stages?
+- Are the results statistically significant?
+
+***If there is time! (We can always defer this to next week!)***
+
+Next, fit a linear regression with patient characteristics as the dependent variables and percent change between CKD-EPI 2009 and CKD-EPI 2021 value (outcome 2) as the independent variable. Interpret the coefficients of the patient characteristics thinking about the following questions: 
+- Are patients of a particular trait more likely to have larger percent changes?
+- For a given patient characteristic, what is the expected change in the outcome?
+- Are the results statistically significant?
 
 ## Week 6 (July 31 - August 4)
 
