@@ -135,4 +135,6 @@ During the sixth week, you will continue to work on your data analyses and final
 
 During the final week of the program, you will prepare your final project presentations. 
 
+Sherri will be at the [Joint Statistical Meetings](https://ww2.amstat.org/meetings/jsm/2024/) during the first half of the week, so there is no group meeting, but she is happy to give feedback on slides asynchronously and there will be a meeting with Catherine!
+
 
