@@ -1,0 +1,319 @@
+---
+title: "AHEaD_simulated_data_2024"
+output: html_document
+date: "2024-07-10"
+---
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+**Continuous Variables**
+
+```{r}
+# Calculating the mean, median, and standard deviation for the continuous variables
+
+# Continuous variable: Sr_Cr
+
+mean(AHEaD_simulated_data_2024$Sr_Cr)
+median(AHEaD_simulated_data_2024$Sr_Cr)
+sd(AHEaD_simulated_data_2024$Sr_Cr)
+```
+
+```{r}
+# Calculating the mean, median, and standard deviation for the continuous variables
+
+# Continuous variable: age
+
+mean(AHEaD_simulated_data_2024$age)
+median(AHEaD_simulated_data_2024$age)
+sd(AHEaD_simulated_data_2024$age)
+```
+
+**Categorical Variables (Race)**
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: Asian
+
+summary(AHEaD_simulated_data_2024$Asian)
+sum(AHEaD_simulated_data_2024$Asian)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$Asian)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: Add1
+
+summary(AHEaD_simulated_data_2024$Addl)
+sum(AHEaD_simulated_data_2024$Addl)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$Add1)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: Unknown
+
+summary(AHEaD_simulated_data_2024$Unknown)
+sum(AHEaD_simulated_data_2024$Unknown)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$Unknown)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: Native Hawaiian or Addl Pacific Islander
+
+summary(AHEaD_simulated_data_2024$`Native Hawaiian or Addl Pacific Islander`)
+sum(AHEaD_simulated_data_2024$`Native Hawaiian or Addl Pacific Islander`)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$`Native Hawaiian or Addl Pacific Islander`)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: Black or African American
+
+summary(AHEaD_simulated_data_2024$`Black or African American`)
+sum(AHEaD_simulated_data_2024$`Black or African American`)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$`Black or African American`)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: American Indian or Alaska Native
+
+summary(AHEaD_simulated_data_2024$`American Indian or Alaska Native`)
+sum(AHEaD_simulated_data_2024$`American Indian or Alaska Native`)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$`American Indian or Alaska Native`)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables
+
+# Categorical variable: white
+
+summary(AHEaD_simulated_data_2024$white)
+sum(AHEaD_simulated_data_2024$white)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$white)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+**Ethnicity, Sex, County**
+
+```{r}
+# Looking at categorical variable for ethnicity
+new_2024 = AHEaD_simulated_data_2024 %>% 
+  mutate(eth_cat = as.factor(ethnicity))
+```
+
+```{r}
+summary(new_2024$eth_cat)
+```
+
+```{r}
+# Looking at categorical variable for sex
+new_2024 = AHEaD_simulated_data_2024 %>% 
+  mutate(sex_cat = as.factor(sex))
+```
+
+```{r}
+summary(new_2024$sex_cat)
+```
+
+```{r}
+# Looking at categorical variable for county
+new_2024 = AHEaD_simulated_data_2024 %>% 
+  mutate(county_cat = as.factor(county))
+```
+
+```{r}
+summary(new_2024$county_cat)
+
+# There are 100 counties.
+```
+
+**Categorical Variables (Risk Factors)**
+
+```{r}
+# Calculating the percentage and count for the categorical variables (risk factors)
+
+# Categorical variable: hypertension
+
+summary(AHEaD_simulated_data_2024$hypertension)
+sum(AHEaD_simulated_data_2024$hypertension)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$hypertension)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables (risk factors)
+
+# Categorical variable: diabetes
+
+summary(AHEaD_simulated_data_2024$diabetes)
+sum(AHEaD_simulated_data_2024$diabetes)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$diabetes)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables (risk factors)
+
+# Categorical variable: CKD
+
+summary(AHEaD_simulated_data_2024$CKD)
+sum(AHEaD_simulated_data_2024$CKD)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$CKD)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+```{r}
+# Calculating the percentage and count for the categorical variables (risk factors)
+
+# Categorical variable: ESRD
+
+summary(AHEaD_simulated_data_2024$ESRD)
+sum(AHEaD_simulated_data_2024$ESRD)
+dim(AHEaD_simulated_data_2024)
+sum(AHEaD_simulated_data_2024$ESRD)/dim(AHEaD_simulated_data_2024)[1]
+```
+
+**Data Visualization**
+
+```{r}
+# To explore data visualization, we can create bar plots and a histogram to represent various variables of interest. Here are four key visualizations:
+
+# 1. Bar Plot - Race: represent the distribution of data across different racial groups. Each bar will represent a different racial group, with the height of the bars showing the frequency or prevalence of the variable of interest within each group. This visualization will help in understanding the demographic distribution among different races.
+
+# 2. Bar Plot - Risk Factors: represent the distribution of various risk factors. Each bar will represent a different risk factor, with the height of the bars indicating the prevalence or frequency of each risk factor. This visualization will help in understanding the distribution and significance of different risk factors in the data set.
+
+# 3. Bar Plot - Sex (Females, Males): This bar plot will show the distribution of data between females and males. Each bar will represent one sex, allowing for a clear comparison of the variable of interest across genders.
+
+# 4. Histogram - Sr_Cr: serum creatinine laboratory value, measured in mg/dL, to visualize its distribution within the dataset.
+
+# These visualizations will help in understanding the demographic distribution and potential disparities in risk factors among different races and sexes.
+```
+
+```{r}
+# 1. Bar Plot - Race
+
+# Variables (7) - Asian, Add1, Unknown, Native Hawaiian or Addl Pacific Islander, Black of African American, American Indian or Alaska Native, white
+
+new_2024 = new_2024 %>% 
+  mutate(race = case_when(Asian == 1 ~ "Asian", 
+                          Addl == 1 ~ "Add1",
+                          Unknown == 1 ~ "Unknown",
+                          `Native Hawaiian or Addl Pacific Islander` == 1 ~ "Native Hawaiian or Add Pacific Islander",
+                          `Black or African American` == 1 ~ "Black or African American",
+                          `American Indian or Alaska Native` == 1 ~ "American Indian or Alaska Native",
+                          white == 1 ~ "White"))
+
+# Explanation: This code is adding a new column called race to the dataset new_2024. It uses mutate along with case_when to assign values to race based on conditions related to different racial categories. For example, if the column Asian equals 1, it assigns "Asian" to race. Similarly, it checks other columns (Add1, Unknown, Native Hawaiian or Add Pacific Islander, Black or African American, American Indian or Alaska Native, white) and assigns appropriate racial categories based on their values. This helps categorize individuals in the dataset by their racial background.
+
+head(new_2024)
+
+# Explanation: This helps display the first few rows of the dataset new_2024 to examine its contents, possibly after performing some data manipulation or analysis. This helps us understand the structure and initial entries of the dataset.
+
+ggplot(new_2024, aes(x = race)) +
+geom_bar() +
+xlab("Race") +
+ylab("Number of Patients") +
+ggtitle("The race of patients in the AHEaD simulated dataset") + 
+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# Explanation: Creating a bar plot using ggplot2 in R to show the distribution of patients by race in the dataset new_2024. Each bar represents a racial category, and the height of the bar indicates the number of patients in that category. The x-axis displays different races, the y-axis represents the number of patients, and the plot is titled "The race of patients in the AHEaD simulated dataset." Additionally, we are adjusting the appearance of the x-axis text to make it easier to read by rotating it 90 degrees and adjusting its alignment.
+```
+
+```{r}
+# 2. Bar Plot - Sex
+
+# Varaibles (2) - Females, Males
+
+head(new_2024)
+
+sex_plot = 
+ggplot(new_2024, aes(x = sex)) +
+  geom_bar() +
+  xlab("Sex") +
+  ylab("Number of Patients") +
+  ggtitle("Distribution of Patients by Sex in the Simulated Dataset")
+
+# Explanation: Creating a bar plot called sex_plot using the ggplot2 package in R. This plot visualizes the distribution of patients by sex in the dataset new_2024. The x axis represents different sexes, the y axis shows the number of patients, and the plot is titled "Distribution of Patients by Sex in the Simulated Dataset."
+
+ggsave(filename = "sex_plot.png", sex_plot)
+```
+
+```{r}
+# 3. Bar Plot - Risk Factors
+
+# Variables (4) - hypertension, diabetes, CKD, ESRD
+
+head(new_2024)
+
+rf_2024 = new_2024 %>% 
+  mutate(hypertension = ifelse(hypertension == 1, "Hypertension", "No Hypertension"),
+         diabetes = ifelse(diabetes == 1, "Diabetes", "No Diabetes"),
+         CKD = ifelse(CKD == 1, "CKD", "No CKD"),
+         ESRD = ifelse(ESRD == 1, "ESRD", "No ESRD"))
+
+head(rf_2024)
+
+rf_2024 = 
+rf_2024 %>% 
+  pivot_longer(cols = c("hypertension", "diabetes", "CKD", "ESRD"),
+               names_to = "Risk Factor",
+               values_to = "risk_factor_values")
+
+rf_color = 
+  rf_2024 %>% 
+  mutate(color = ifelse(str_detect(risk_factor_values, "No"), "blue", "red"))
+         
+rf_plot =
+  ggplot(rf_color, aes(x = `risk_factor_values`, color = color, fill = color)) +
+  geom_bar() +
+  facet_wrap(~ `Risk Factor`, scales = "free_x") +
+  scale_fill_identity() +
+  scale_color_identity() +
+  xlab("Risk Factor") + 
+  ylab("Number of Patients") +
+  ggtitle("Distribution of Patients with Risk Factors")
+
+ggsave(filename = "rf_plot.png", rf_plot)
+```
+
+```{r}
+# 4. Histogram - Sr_Cr (serum creatinine laboratory value)
+
+head(new_2024)
+
+cr_plot = 
+ggplot(new_2024, aes(x = Sr_Cr)) +
+  geom_histogram() +
+  xlab("Serum creatinine laboratory value (mg/dL)") +
+  ylab("Frequency") +
+  ggtitle("Serum creatinine value in patients")
+
+# Explanation: Creating a histogram using ggplot in R to visualize the distribution of serum creatinine laboratory values (Sr_Cr) in the dataset new_2024. The x-axis represents serum creatinine values in mg/dL, while the y-axis shows the frequency of these values. The plot is titled "Serum creatinine value in patients." This visualization helps us understand the distribution and range of serum creatinine levels among the patients in the dataset.
+
+ggsave(filename = "cr_plot.png", cr_plot)
+```
+
+```{r}
+# Created data visualizations including bar plots for race and sex, and a histogram for serum creatinine (Sr_Cr).
+
+# Each visualization aimed to provide insights into demographic distributions and risk factor disparities within the dataset.
+
+# These steps collectively provide a comprehensive overview of the dataset's characteristics and facilitate understanding of key variables through both numerical summaries and visual representations for the simulated dataset. 
+```
