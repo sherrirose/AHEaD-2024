@@ -1,0 +1,136 @@
+---
+title: "eGFR_values_AHEaD_simulated_data_2024"
+output: html_document
+date: "2024-07-15"
+---
+
+## Loading packages and data
+
+```{r}
+library(tidyverse)
+library(here)
+library(readr)
+```
+
+## eGFR Equations
+
+***CKD-EPI Creatinine Equation (2009)***
+
+[eGFRcr = 141 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.209 x 0.993Age x 1.018 [if female] x 1.159 [if black]]{.underline}
+
+NOTE: What about for males? [if female], [if black]
+
+where:
+
+-   Scr = serum creatinine in mg/dL
+
+-   κ = 0.7 (females) or 0.9 (males)
+
+-   α = -0.329 (female) or -0.411 (male)
+
+-   min(Scr/κ, 1) is the minimum of Scr/κ or 1.0
+
+-   max(Scr/κ, 1) is the maximum of Scr/κ or 1.0
+
+***CKD-EPI Creatinine Equation (2021)***
+
+[eGFRcr = 142 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.200 x 0.9938Age x 1.012 [if female]]{.underline}
+
+where:
+
+-   Scr = standardized serum creatinine in mg/dL
+
+-   κ = 0.7 (females) or 0.9 (males)
+
+-   α = -0.241 (female) or -0.302 (male)
+
+-   min(Scr/κ, 1) is the minimum of Scr/κ or 1.0
+
+-   max(Scr/κ, 1) is the maximum of Scr/κ or 1.0
+
+-   Age (years)
+
+## Variables that need to have eGFR computed based off their recorded values
+
+1.  Serum creatinine (Sr_Cr)
+
+2.  Age (age)
+
+3.  Sex (sex)
+
+4.  Race (Black or African American)
+
+## Code
+
+**CKD-EPI Creatinine Equation (2009)**
+
+[eGFRcr = 141 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.209 x 0.993Age x 1.018 [if female] x 1.159 [if black]]{.underline}
+
+```{r}
+# CKD-EPI Creatinine Equation (2009)
+
+AHEaD_simulated_data_2024 <- read_csv("~/AHEaD_CKD_2024/AHEaD_simulated_data_2024/data/AHEaD_simulated_data_2024.csv")
+View(AHEaD_simulated_data_2024)
+
+# K 
+AHEaD_simulated_data_2024$K <- ifelse(AHEaD_simulated_data_2024$sex=="Female",0.7,0.9)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$K)
+
+# a
+AHEaD_simulated_data_2024$a <- ifelse(AHEaD_simulated_data_2024$sex=="Female", -0.329, -0.411)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$a)
+
+# [if female]
+AHEaD_simulated_data_2024$constant <- ifelse(AHEaD_simulated_data_2024$sex=="Female",1.018,1)
+
+# [if black]
+AHEaD_simulated_data_2024$blackconstant <- ifelse(AHEaD_simulated_data_2024$`Black or African American`==1,1.159,1)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$K)
+
+# Putting it altogether for the equation
+AHEaD_simulated_data_2024$eGFRcr <- 141*min(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K, 1.0)*AHEaD_simulated_data_2024$a*max(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K, 1.0)*-1.209*0.993*AHEaD_simulated_data_2024$age*AHEaD_simulated_data_2024$constant*AHEaD_simulated_data_2024$blackconstant
+
+# Histogram
+hist(AHEaD_simulated_data_2024$eGFRcr)
+
+# Summary
+summary(AHEaD_simulated_data_2024$eGFRcr)
+
+# Looking at the first 20 values
+head(AHEaD_simulated_data_2024$eGFRcr, n=20)
+```
+
+**CKD-EPI Creatinine Equation (2021)**
+
+[eGFRcr = 142 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.200 x 0.9938Age x 1.012 [if female]]{.underline}
+
+```{r}
+# CKD-EPI Creatinine Equation (2021)
+
+AHEaD_simulated_data_2024 <- read_csv("~/AHEaD_CKD_2024/AHEaD_simulated_data_2024/data/AHEaD_simulated_data_2024.csv")
+View(AHEaD_simulated_data_2024)
+
+# K
+AHEaD_simulated_data_2024$K_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female",0.7,0.9)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$K_21)
+
+# a
+AHEaD_simulated_data_2024$a_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female", -0.241, -0.302)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$a_21)
+
+# [if female]
+AHEaD_simulated_data_2024$constant_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female",1.012,1)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$constant_21)
+
+# Putting it altogether for the equation
+AHEaD_simulated_data_2024$eGFRcr_21 <- 142*min(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K_21, 1.0)*AHEaD_simulated_data_2024$a_21*max(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K_21)*-1.200*0.9938*AHEaD_simulated_data_2024$age*AHEaD_simulated_data_2024$constant_21
+
+# Histogram
+hist(AHEaD_simulated_data_2024$eGFRcr_21)
+
+# Summary
+summary(AHEaD_simulated_data_2024$eGFRcr_21)
+
+# Looking at the first 20 values
+head(AHEaD_simulated_data_2024$eGFRcr_21, n=20)
+```
