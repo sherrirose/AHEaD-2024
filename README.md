@@ -117,11 +117,11 @@ Stages of CKD are determined by eGFR as per [this website](https://www.kidney.or
 
 During the fifth week, you will compare how the eGFR and CKD stage distribution differs when using the CKD-EPI 2009 and CKD-EPI 2021 eGFR formulas among patients. For example, you will identify if differences in the distributions are more evident in certain subgroups, such as racial and ethnic groups (e.g., American Indian or Alaska Native, Asian, Black or African American, Native Hawaiian or Addl Pacific Islander, Addl, white, Unknown). 
 
-After computing the eGFR value and stages for each individual patient, we can identify the following two outcomes: 
+After computing the eGFR value and stages for each individual patient, we can identify the following two variables: 
 1) Binary outcome for whether or not the patient has a different stage according to CKD-EPI 2009 and CKD-EPI 2021
 2) Percent change between the CKD-EPI 2009 and CKD-EPI 2021 values
 
-Propose an implement a regression to explore the relationship between documented patient characteristics and these outcomes. How do you interpret your results?
+Summarize these new variables. Propose an implement a regression to explore the relationship between documented patient characteristics and the binary outcome. How do you interpret your results?
 
 ## Week 6 (July 29 - August 2)
 
