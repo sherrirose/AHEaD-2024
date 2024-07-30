@@ -1,0 +1,337 @@
+---
+title: "eGFR_values_AHEaD_simulated_data_2024"
+output: html_document
+date: "2024-07-15"
+---
+
+## Week 4
+
+## Loading packages and data
+
+```{r}
+library(tidyverse)
+library(here)
+library(readr)
+
+```
+
+## eGFR Equations
+
+***CKD-EPI Creatinine Equation (2009)***
+
+[eGFRcr = 141 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.209 x 0.993Age x 1.018 [if female] x 1.159 [if black]]{.underline}
+
+NOTE: What about for males? [if female], [if black]
+
+where:
+
+-   Scr = serum creatinine in mg/dL
+
+-   κ = 0.7 (females) or 0.9 (males)
+
+-   α = -0.329 (female) or -0.411 (male)
+
+-   min(Scr/κ, 1) is the minimum of Scr/κ or 1.0
+
+-   max(Scr/κ, 1) is the maximum of Scr/κ or 1.0
+
+***CKD-EPI Creatinine Equation (2021)***
+
+[eGFRcr = 142 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.200 x 0.9938Age x 1.012 [if female]]{.underline}
+
+where:
+
+-   Scr = standardized serum creatinine in mg/dL
+
+-   κ = 0.7 (females) or 0.9 (males)
+
+-   α = -0.241 (female) or -0.302 (male)
+
+-   min(Scr/κ, 1) is the minimum of Scr/κ or 1.0
+
+-   max(Scr/κ, 1) is the maximum of Scr/κ or 1.0
+
+-   Age (years)
+
+*Code Review from Sherri - Use the equation to assign/plug-in the variables rather than using the 'ifelse' function.*
+
+## Variables that need to have eGFR computed based off their recorded values
+
+1.  Serum creatinine (Sr_Cr)
+
+2.  Age (age)
+
+3.  Sex (sex)
+
+4.  Race (Black or African American)
+
+## Code
+
+**CKD-EPI Creatinine Equation (2009)**
+
+[eGFRcr = 141 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.209 x 0.993Age x 1.018 [if female] x 1.159 [if black]]{.underline}
+
+-   κ = 0.7 (females) or 0.9 (males)
+
+-   α = -0.329 (female) or -0.411 (male)
+
+-   sex = female, male
+
+-   "Black or African American" column = 1 or 0
+
+```{r}
+# Patient 1 (patient_id = 82842)
+141*min(1.07/0.7, 1)^-0.329*max(1.07/0.7, 1)^-1.209*0.993^93*1.018*1.159
+
+# Patient 2 (patient_id = 141877)
+141*min(1.17/0.7, 1)^-0.329*max(1.17/0.7, 1)^-1.209*0.993^58*1.018*1.159
+
+# Patient 3 (patient_id = 338629)
+141*min(0.89/0.9, 1)^-0.329*max(0.89/0.9, 1)^-1.209*0.993^78*1.159
+
+# Patient 4 (patient_id = 389931)
+141*min(1.21/0.9, 1)^-0.329*max(1.21/0.9, 1)^-1.209*0.993^57*1.159
+
+# Patient 5 (patient_id = 365017)
+141*min(1.38/0.7, 1)^-0.329*max(1.38/0.7, 1)^-1.209*0.993^75*1.018*1.159
+```
+
+```{r}
+### Generate new variable the assigns eGFR value to each participant using 2009 forumula
+    ## Create a vector for the values of kappa that vary by binary sex
+    k09 <- c("Female" = 0.7,
+           "Male" = 0.9)
+    
+    ## Create a vector for the values of alpha that vary by binary sex
+    a09 <- c("Female" = -0.329,
+           "Male" = -0.411)
+    
+    ## Create a vector for the additional coefficient in the equation that varies by binary sex
+    s09 <- c("Female" = 1.018,
+           "Male" = 1)
+    
+    ## Create a vector for the additional coefficient in the equation that varies by race (Black vs. not)
+    b09 <- c(1, 1.159) #R indexes starting at 1, so will need to shift (add 1) for Black indicator variable (assigns 1 to not Black and 1.159 to Black participants)
+    
+## Write out equation using above vectors
+    eGFRcrD_2021_df$egfr09 <- 141 * 
+      pmin(eGFRcrD_2021_df$Sr_Cr/k09[eGFRcrD_2021_df$sex], 1)^a09[eGFRcrD_2021_df$sex] *
+      pmax(eGFRcrD_2021_df$Sr_Cr/k09[eGFRcrD_2021_df$sex], 1)^(-1.209) *
+      (0.993^eGFRcrD_2021_df$age) * 
+      (s09[eGFRcrD_2021_df$sex]) *
+      (b09[1+eGFRcrD_2021_df$`Black or African American`])                   
+
+    ## Filter to just Black participants to validate whether equation worked (against online calculator)
+    testdf <- eGFRcrD_2021_df[eGFRcrD_2021_df$`Black or African American` >0,]
+```
+
+```{r}
+#CKD09
+
+#Stage 1 = 90>
+#Stage 2 = >=60 + <90
+#Stage 3a = >=45 +<60
+#Stage 3b = >=30 + <45
+#Stage 4 = >=15 + <30
+#Stage 5 = <15
+
+eGFRcrD_2021_df <- eGFRcrD_2021_df %>%  
+  mutate(CKD09 = case_when(egfr09>=90~"Stage 1",
+                           egfr09>=60 & egfr09<90~"Stage 2",
+                           egfr09>=45 & egfr09<60~"Stage 3a",
+                           egfr09>=30 & egfr09<45~"Stage 3b",
+                           egfr09>=15 & egfr09<30~"Stage 4",
+                           egfr09<15~"Stage 5"))
+```
+
+**CKD-EPI Creatinine Equation (2021)**
+
+[eGFRcr = 142 x min(Scr/κ, 1)α x max(Scr/κ, 1)-1.200 x 0.9938Age x 1.012 [if female]]{.underline}
+
+```{r}
+# CKD-EPI Creatinine Equation (2021)
+
+AHEaD_simulated_data_2024 <- read_csv("~/AHEaD_CKD_2024/AHEaD_simulated_data_2024/data/AHEaD_simulated_data_2024.csv")
+View(AHEaD_simulated_data_2024)
+
+# K
+AHEaD_simulated_data_2024$K_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female",0.7,0.9)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$K_21)
+
+# a
+AHEaD_simulated_data_2024$a_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female", -0.241, -0.302)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$a_21)
+
+# [if female]
+AHEaD_simulated_data_2024$constant_21 <- ifelse(AHEaD_simulated_data_2024$sex=="Female",1.012,1)
+table(AHEaD_simulated_data_2024$sex,AHEaD_simulated_data_2024$constant_21)
+
+# Putting it altogether for the equation
+AHEaD_simulated_data_2024$eGFRcr_21 <- 142*min(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K_21, 1.0)*AHEaD_simulated_data_2024$a_21*max(AHEaD_simulated_data_2024$Sr_Cr/AHEaD_simulated_data_2024$K_21)*-1.200*0.9938*AHEaD_simulated_data_2024$age*AHEaD_simulated_data_2024$constant_21
+
+# Histogram
+hist(AHEaD_simulated_data_2024$eGFRcr_21)
+
+# Summary
+summary(AHEaD_simulated_data_2024$eGFRcr_21)
+
+# Looking at the first 5 values
+head(AHEaD_simulated_data_2024$eGFRcr_21, n=5)
+```
+
+```{r}
+# Patient 1 (patient_id = 82842)
+142*min(1.07/0.7, 1)^-0.241*max(1.07/0.7, 1)^-1.200*0.9938^93*1.012
+
+# Patient 2 (patient_id = 141877)
+141*min(1.17/0.7, 1)^-0.241*max(1.17/0.7, 1)^-1.200*0.9938^58*1.018*1.012
+
+# Patient 3 (patient_id = 338629)
+141*min(0.89/0.9, 1)^-0.302*max(0.89/0.9, 1)^-1.200*0.9938^78
+
+# Patient 4 (patient_id = 389931)
+141*min(1.21/0.9, 1)^-0.302*max(1.21/0.9, 1)^-1.200*0.9938^57
+
+# Patient 5 (patient_id = 365017)
+141*min(1.38/0.7, 1)^-0.241*max(1.38/0.7, 1)^-1.200*0.9938^75*1.018*1.012
+```
+
+```{r}
+### Generate new variable the assigns eGFR value to each participant using 2021 forumula
+    ## Create a vector for the values of kappa that vary by binary sex
+    k21 <- c("Female" = 0.7,
+           "Male" = 0.9)
+    
+    ## Create a vector for the values of alpha that vary by binary sex
+    a21 <- c("Female" = -0.241,
+           "Male" = -0.302)
+    
+    ## Create a vector for the additional coefficient in the equation that varies by binary sex
+    s21 <- c("Female" = 1.012,
+           "Male" = 1)
+    
+## Write out equation using above vectors
+    eGFRcrD_2021_df$egfr21 <- 142 * 
+      pmin(eGFRcrD_2021_df$Sr_Cr/k21[eGFRcrD_2021_df$sex], 1)^a21[eGFRcrD_2021_df$sex] *
+      pmax(eGFRcrD_2021_df$Sr_Cr/k21[eGFRcrD_2021_df$sex], 1)^(-1.200) *
+      (0.9938^eGFRcrD_2021_df$age) * 
+      (s21[eGFRcrD_2021_df$sex])
+
+    ## Filter to just Black participants to validate whether equation worked (against online calculator)
+    testdf <- eGFRcrD_2021_df[eGFRcrD_2021_df$`Black or African American` >0,]
+```
+
+```{r}
+#CKD21
+
+#Stage 1 = 90>
+#Stage 2 = >=60 + <90
+#Stage 3a = >=45 +<60
+#Stage 3b = >=30 + <45
+#Stage 4 = >=15 + <30
+#Stage 5 = <15
+
+eGFRcrD_2021_df <- eGFRcrD_2021_df %>%
+  mutate(CKD21 = case_when(egfr21>=90~"Stage 1",
+                           egfr21>=60 & egfr21<90~"Stage 2",
+                           egfr21>=45 & egfr21<60~"Stage 3a",
+                           egfr21>=30 & egfr21<45~"Stage 3b",
+                           egfr21>=15 & egfr21<30~"Stage 4",
+                           egfr21<15~"Stage 5"))
+```
+
+## Week 5
+
+```{r}
+# Binary outcome for whether or not the patient has a different stage according to CKD-EPI 2009 and CKD-EPI 2021
+
+eGFRcrD_2021_bo <- eGFRcrD_2021_df %>% 
+  mutate(different_stage = ifelse(CKD09 != CKD21, 1, 0))
+
+binary_outcome_summary <- eGFRcrD_2021_df %>%
+  summarise(total_patients = n(),
+    different_stage_count = sum(different_stage),
+    same_stage_count = total_patients - different_stage_count,
+    different_stage_percentage = (different_stage_count / total_patients) * 100,
+  )
+
+print(binary_outcome_summary)
+```
+
+```{r}
+# Percent change between the CKD-EPI 2009 and CKD-EPI 2021 values
+
+eGFRcrD_2021_pc <- eGFRcrD_2021_df %>% 
+  mutate(percent_change = ((egfr21 - egfr09)/ egfr09)*100)
+
+percent_change_summary <- eGFRcrD_2021_df %>%
+  summarise(
+    mean_percent_change = mean(percent_change, na.rm = TRUE),
+    median_percent_change = median(percent_change, na.rm = TRUE),
+    sd_percent_change = sd(percent_change, na.rm = TRUE))
+
+print(percent_change_summary)
+```
+
+```{r}
+# Assuming patient characteristics are in the dataset
+# Example variables: age, sex, race, risk factors...
+
+# Convert sex to a factor if they are not already
+eGFRcrD_2021_df <- eGFRcrD_2021_df %>%
+  mutate(sex = as.factor(sex))
+
+# Logistic regression model (binomial - 2 responses)
+logistic_model <- glm(different_stage ~ age + sex + Asian + Addl + Unknown + `Native Hawaiian or Addl Pacific Islander` + `Black or African American` + `American Indian or Alaska Native` + white + hypertension + diabetes + CKD + ESRD, 
+                      data = eGFRcrD_2021_df, 
+                      family = binomial)
+
+# Summary of the logistic regression model
+summary(logistic_model)
+
+# Calculate odds ratios and 95% confidence intervals
+exp(cbind(Odds_Ratio = coef(logistic_model), confint(logistic_model)))
+```
+
+```{r}
+#Catherine's code - Black or African American
+model_1 <- glm(different_stage ~ age + sex + `Black or African American` + hypertension + diabetes, 
+                      data = eGFRcrD_2021_df, 
+                      family = binomial)
+
+exp(coef(model_1))
+
+exp(cbind(Odds_Ratio = coef(model_1), confint(model_1)))
+```
+
+```{r}
+#American Indian or Alaska Native
+model_2 <- glm(different_stage ~ age + sex + `American Indian or Alaska Native` + hypertension + diabetes, 
+                      data = eGFRcrD_2021_df, 
+                      family = binomial)
+
+exp(cbind(Odds_Ratio = coef(model_2), confint(model_2)))
+```
+
+```{r}
+#White
+model_3 <- glm(different_stage ~ age + sex + white + hypertension + diabetes, 
+                      data = eGFRcrD_2021_df, 
+                      family = binomial)
+
+exp(cbind(Odds_Ratio = coef(model_3), confint(model_3)))
+```
+
+```{r}
+# Reclassified patients
+
+binary_outcome_summary <- eGFRcrD_2021_df %>% 
+  summarise(total_patients = n(),
+    different_stage_count = sum(different_stage),
+    same_stage_count = total_patients - different_stage_count,
+    different_stage_percentage = (different_stage_count / total_patients) * 100,
+    same_stage_percentage = (same_stage_count / total_patients) * 100
+  )
+
+print(binary_outcome_summary)
+```
